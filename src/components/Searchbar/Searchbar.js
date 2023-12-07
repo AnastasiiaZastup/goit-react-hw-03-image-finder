@@ -6,18 +6,17 @@ export const Searchbar = ({ onSubmit }) => {
     <div>
       <Formik
         initialValues={{
-          search: '',
+          query: '',
         }}
         onSubmit={values => {
-          onSubmit(values.search);
+          onSubmit(values);
         }}
       >
         <Form>
           <div>
             <Field
               type="text"
-              id="search"
-              name="search"
+              name="query"
               placeholder="Search image and photo"
             />
             <button type="submit">Search</button>

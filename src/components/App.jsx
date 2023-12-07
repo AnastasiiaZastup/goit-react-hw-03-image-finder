@@ -48,9 +48,11 @@ export class App extends Component {
   };
 
   handleSubmit = newValue => {
+    console.log(newValue);
     return this.setState({
       query: newValue.query,
       page: 1,
+      images: [],
     });
   };
 
