@@ -1,11 +1,11 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 
 export const Searchbar = ({ onSubmit }) => {
   return (
     <div>
       <Formik
-        intialValue={{
+        initialValues={{
           search: '',
         }}
         onSubmit={values => {
@@ -14,12 +14,13 @@ export const Searchbar = ({ onSubmit }) => {
       >
         <Form>
           <div>
-            <input
+            <Field
+              type="text"
               id="search"
               name="search"
               placeholder="Search image and photo"
             />
-            <button type="submit"></button>
+            <button type="submit">Search</button>
           </div>
         </Form>
       </Formik>

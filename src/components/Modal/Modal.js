@@ -1,4 +1,5 @@
-import Modal from 'react-modal';
+import React from 'react';
+import ReactModal from 'react-modal';
 
 const customStyles = {
   content: {
@@ -11,17 +12,19 @@ const customStyles = {
   },
 };
 
-Modal.setAppElement('#root');
+ReactModal.setAppElement('#root');
 
-export const Modal = ({ isOpens, onCloses }) => {
+const Modal = ({ isOpen, onRequestClose, url, tag }) => {
   return (
-    <Modal
-      isOpen={isOpens}
-      onRequestClose={onCloses}
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <button onClick={onCloses}>close</button>
-    </Modal>
+      <img src={url} alt={tag} height="100%" />
+    </ReactModal>
   );
 };
+
+export default Modal;

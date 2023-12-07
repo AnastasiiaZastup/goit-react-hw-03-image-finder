@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from '../Modal/Modal';
+import Modal from '../Modal/Modal';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -20,13 +20,21 @@ export class ImageGalleryItem extends Component {
 
   render() {
     const { isModalOpen } = this.state;
-
+    const { webformatURL, tag, largeImageUrl } = this.props;
     return (
       <div>
-        <li className="gallery-item" onClick={this.openModal}>
-          <img src="" alt="" />
-        </li>
-        <Modal isOpen={isModalOpen} onClose={this.closeModal} />
+        <img
+          src={webformatURL}
+          alt={tag}
+          onClick={this.modalToggle}
+          height="250px"
+        />
+        <Modal
+          isOpen={isModalOpen}
+          isClose={this.modalToggle}
+          url={largeImageUrl}
+          tags={tag}
+        />
       </div>
     );
   }
