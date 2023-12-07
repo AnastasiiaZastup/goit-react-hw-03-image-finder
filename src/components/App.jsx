@@ -12,43 +12,45 @@ export class App extends Component {
     query: '',
     page: 1,
     isLoading: false,
-    allPage: null,
-    error: false,
-    allPages: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { query, page } = this.state;
-
-    if (page !== prevState.page || query !== prevState.query) {
-      try {
-        this.setState({ isLoading: true });
-        const initialFetch = await fetchImage(query, page);
-
-        this.setState(prevState => {
-          const { fetchs, fetchsTotal } = initialFetch;
-
-          return {
-            images: [...prevState.images, ...fetchs],
-            isLoading: false,
-            allPage: fetchsTotal,
-          };
-        });
-      } catch (error) {
-        this.setState({
-          error,
-          isLoading: false,
-        });
-      }
+    if (
+      prevState.page !== this.state.page ||
+      prevState.query !== this.state.query
+    ) {
+      this.fetchImageData();
     }
   }
+
+  fetchImageData = async () => {
+    const { query, page } = this.state;
+
+    try {
+      this.setState({ isLoading: true });
+
+      const initialFetch = await fetchImage(query, page);
+
+      this.setState(prevState => ({
+        images:
+          page === 1
+            ? initialFetch.fetchs
+            : [...prevState.images, ...initialFetch.fetchs],
+        isLoading: false,
+        allPage: initialFetch.fetchsTotal,
+      }));
+    } catch (error) {
+      this.setState({
+        error,
+        isLoading: false,
+      });
+    }
+  };
 
   handleSubmit = newValue => {
     return this.setState({
       query: newValue.query,
       page: 1,
-      images: [],
-      allPages: null,
     });
   };
 
