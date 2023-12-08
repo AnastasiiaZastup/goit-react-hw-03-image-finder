@@ -12,39 +12,40 @@ export class App extends Component {
     query: '',
     page: 1,
     isLoading: false,
+    allPage: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
+    
+    const { query, page } = this.state;
+
     if (
       prevState.page !== this.state.page ||
       prevState.query !== this.state.query
     ) {
-      this.fetchImageData();
-    }
-  }
-
-  fetchImageData = async () => {
-    const { query, page } = this.state;
-
     try {
-      this.setState({ isLoading: true });
-
+      this.setState({ 
+        isLoading: true, 
+        error: null 
+      });
+  
       const initialFetch = await fetchImage(query, page);
-
+  
       this.setState(prevState => ({
-        images:
-          page === 1
-            ? initialFetch.fetchs
-            : [...prevState.images, ...initialFetch.fetchs],
-        isLoading: false,
-        allPage: initialFetch.fetchsTotal,
+        images: [...prevState.images, ...initialFetch.hits],
+        allPage: initialFetch.totalHits,
       }));
     } catch (error) {
+
       this.setState({
-        error,
-        isLoading: false,
+        error: "Oops.",
       });
+
+    } finally {
+
+      this.setState({ isLoading: false });
     }
+  }
   };
 
   handleSubmit = newValue => {
@@ -66,11 +67,12 @@ export class App extends Component {
 
   render() {
     const { images, isLoading } = this.state;
+    const galleryImage = images.length !== 0;
     return (
       <div>
         <Searchbar onSubmit={this.handleSubmit} />
 
-        {images.length > 0 && <ImageGallery items={images} />}
+        {galleryImage && <ImageGallery images={images} />}
         <Button onClick={this.handleLoadMore} />
         {isLoading && <Loader />}
         <Toaster />

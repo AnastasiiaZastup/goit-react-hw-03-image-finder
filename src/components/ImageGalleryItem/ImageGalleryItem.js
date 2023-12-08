@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
-import Modal from '../Modal/Modal';
+import {CustomModal} from '../Modal/Modal';
 
 export class ImageGalleryItem extends Component {
   state = {
-    isModalOpen: false,
+    modalIsOpen: false,
   };
 
   openModal = () => {
     this.setState({
-      isModalOpen: true,
+      modalIsOpen: true,
     });
   };
 
   closeModal = () => {
     this.setState({
-      isModalOpen: false,
+      modalIsOpen: false,
     });
   };
 
   render() {
-    const { isModalOpen } = this.state;
-    const { item } = this.props;
+    const { image, largeImage, tags } = this.props;
+    const { modalIsOpen } = this.state;
+    
 
     return (
       <div>
         <li onClick={this.openModal}>
-          <img src={item.webformatURL} alt="img" />
+          <img src={image} alt= {tags} />
         </li>
-        {isModalOpen && (
-          <Modal isOpen={isModalOpen} onClose={this.closeModal} item={item} />
+        {modalIsOpen && (
+          <CustomModal isOpen={modalIsOpen} onClose={this.closeModal} largeImg = {largeImage} tags = {tags} />
         )}
       </div>
     );
