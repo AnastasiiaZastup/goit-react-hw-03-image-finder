@@ -66,14 +66,19 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading } = this.state;
+    const { images, isLoading, allPage, page } = this.state;
     const galleryImage = images.length !== 0;
     return (
-      <div>
+      <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
 
         {galleryImage && <ImageGallery images={images} />}
-        <Button onClick={this.handleLoadMore} />
+        {galleryImage && (
+          page<allPage 
+          ? <Button onClick={this.handleLoadMore} />
+          : <p className='mess'>Opps!</p>
+        )}
+        
         {isLoading && <Loader />}
         <Toaster />
       </div>

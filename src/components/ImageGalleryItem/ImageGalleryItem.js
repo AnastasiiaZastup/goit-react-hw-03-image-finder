@@ -25,8 +25,8 @@ export class ImageGalleryItem extends Component {
 
     return (
       <div>
-        <li onClick={this.openModal}>
-          <img src={image} alt= {tags} />
+        <li className='ImageGalleryItem' onClick={this.openModal}>
+          <img className = "ImageGalleryItem-image" src={image} alt= {tags} />
         </li>
         {modalIsOpen && (
           <CustomModal isOpen={modalIsOpen} onClose={this.closeModal} largeImg = {largeImage} tags = {tags} />
