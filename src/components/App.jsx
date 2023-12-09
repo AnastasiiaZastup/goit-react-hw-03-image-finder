@@ -12,7 +12,7 @@ export class App extends Component {
     query: '',
     page: 1,
     isLoading: false,
-    allPage: null,
+    showBtn: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -33,7 +33,8 @@ export class App extends Component {
   
       this.setState(prevState => ({
         images: [...prevState.images, ...initialFetch.hits],
-        allPage: initialFetch.totalHits,
+        showBtn: page < Math.ceil(initialFetch.totalHits /12),
+
       }));
     } catch (error) {
 
@@ -66,17 +67,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, allPage, page } = this.state;
+    const { images, isLoading, showBtn } = this.state;
     const galleryImage = images.length !== 0;
+    
     return (
       <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
 
         {galleryImage && <ImageGallery images={images} />}
-        {galleryImage && (
-          page<allPage 
-          ? <Button onClick={this.handleLoadMore} />
-          : <p className='mess'>Opps!</p>
+        {showBtn && ( <Button onClick={this.handleLoadMore} />
         )}
         
         {isLoading && <Loader />}
